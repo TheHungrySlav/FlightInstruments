@@ -28,6 +28,14 @@ screen.blit(pygame.transform.scale(base, (700, 700)), (0, 0))
 screen.blit(pygame.transform.scale(airspeed_base, (700,700)),(750,0))
 pygame.display.update()
 
+font = pygame.font.Font('freesansbold.ttf', 20)
+text = font.render('Altimeter', True, black,white)
+text2 = font.render('Airspeed', True, black,white)
+textRect = text.get_rect()
+textRect.center = (350,20)
+textRect2 = text2.get_rect()
+textRect2.center = (1120,20)
+
 # Origin Positions
 current_altitude = 0
 current_airspeed = 0
@@ -56,6 +64,7 @@ def airspeed(current_airspeed,throttle):
 
 # Calculate Altitude
 def altitude(current_altitude,direction,airspeed,acceleration):
+    #Calculate change in altitude based on plane angle
     altitude_change = airspeed*math.cos(math.radians(angle_of_att))
     if direction == 1:
         new_altitude = current_altitude + altitude_change
@@ -111,6 +120,8 @@ def airspeed_indicator(new_airspeed):
 
 # Main Loop
 while running:
+    screen.blit(text,textRect)
+    screen.blit(text2,textRect2)
     new_airspeed, acceleration = airspeed(current_airspeed,throttle)
     airspeed_indicator(new_airspeed)
     current_altitude = altitude(current_altitude,direction,new_airspeed,acceleration)
